@@ -1,0 +1,93 @@
+version: '3.4'
+
+services:
+
+  postgres:
+    container_name: postgres
+    hostname: postgres
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=apexroot1
+      - POSTGRES_PASSWORD=apexroot1
+      - POSTGRES_DB=apexroot1
+    networks:
+      - main
+    ports:
+      - "5432:5432"
+    restart: on-failure
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+
+
+  # modeltraining:
+  #   build: modeltrain
+  #   container_name: "modeltraining"
+  #   command: sh -c "python3 workspace/train.py"
+  #   #image: app-image:latest
+  #   hostname: modeltraining
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+
+
+  app:
+    build: .
+    command: sh -c "wait-for &&  python3 app/manage.py migrate && python3 app/manage.py runserver 0.0.0.0:8000"
+    environment:
+      - WAIT_HOSTS=postgres:5432
+      - WAIT_HOSTS_TIMEOUT=50
+      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_HOST_CONNECT_TIMEOUT=30
+    volumes:
+      - .:/usr/src/app
+      - viz-data:/usr/src/vizsense_volume
+
+    container_name: app
+    links:
+      - postgres
+    ports:
+      - "8000:8000"
+        #expose:
+        #- "8000"
+    hostname: app
+    image: app-image:latest
+    networks:
+      - main
+    restart: on-failure
+
+
+
+  worker:
+    container_name: "worker"
+    command: sh -c "python3 Worker/worker.py"
+    image: app-image:latest
+    hostname: worker
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+
+
+
+
+    links:
+      - postgres
+    networks:
+      - main
+
+
+
+networks:
+  main:
+
+volumes:
+  postgresql-data:
+  viz-data:

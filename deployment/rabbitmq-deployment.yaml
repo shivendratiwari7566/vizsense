@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.version: 1.26.1 (a9d05d509)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: rabbitmq
+  name: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: rabbitmq
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+  template:
+    metadata:
+      annotations:
+        kompose.version: 1.26.1 (a9d05d509)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: rabbitmq
+    spec:
+      containers:
+        - env:
+            - name: RABBITMQ_DEFAULT_PASS
+              value: admin
+            - name: RABBITMQ_DEFAULT_USER
+              value: admin
+          image: rabbitmq:3-management     #docker.io/bitnami/rabbitmq:3.10
+          #imagePullPolicy: Never
+          name: rabbitmq
+          ports:
+            - containerPort: 5672
+            - containerPort: 15672
+          resources: {}
+          volumeMounts:
+            - mountPath: /bitnami/rabbitmq/mnesia
+              name: k8s-rabbitmq-data
+      restartPolicy: Always
+      tolerations:
+      - key: "key"
+        operator: "Exists"
+        effect: "NoSchedule"
+      volumes:
+        - name: k8s-rabbitmq-data
+          persistentVolumeClaim:
+            claimName: k8s-rabbitmq-data
+status: {}

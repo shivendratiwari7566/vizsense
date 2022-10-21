@@ -1,0 +1,18 @@
+Create Model--->
+Name=RSOD
+
+Create Sources--->
+
+Source name - RSOD_Source
+Sub Source- RSOD1   ./Input/sources/vid1
+Sub Source- RSOD2   ./Input/sources/vid2
+
+
+Create function--->
+
+Function Name- RSOD_Function
+
+
+Create Jobs --->
+
+Job_Name- RSOD_Job

@@ -1,0 +1,30 @@
+
+https://towardsdatascience.com/how-to-deploy-machine-learning-models-with-tensorflow-part-1-make-your-model-ready-for-serving-776a14ec3198
+https://towardsdatascience.com/how-to-deploy-machine-learning-models-with-tensorflow-part-2-containerize-it-db0ad7ca35a7
+https://github.com/IntelAI/models/blob/master/docs/object_detection/tensorflow_serving/Tutorial.md
+
+
+Download Model
+
+    R-FCN: https://storage.googleapis.com/intel-optimized-tensorflow/models/v1_8/rfcn_resnet101_fp32_coco_pretrained_model.tar.gz
+    SSD-MobileNet: http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_coco_2018_01_28.tar.gz
+
+
+
+
+
+
+python3 savemodel.py --checkpoint-dir=./checkpoints --output_dir=./otherexport --model-version=1
+
+
+sudo docker run -it -v /home/user/vat/trial2/models:/tf_serving -p 8701:8701 --entrypoint /bin/bash tensorflow/serving
+	tensorflow_model_server --port=7000  --allow_version_labels_for_unavailable_models --model_config_file=/tf_serving/models.config.e &> gan_log &
+
+
+sudo docker run --name VizSenseModelServer2 -it -v /home/user/vat/trial2/models:/tf_serving -p 8601:8601 --entrypoint /bin/bash tensorflow/serving
+	tensorflow_model_server --port=8701  --allow_version_labels_for_unavailable_models --model_config_file=/tf_serving/models.config.e &> gan_log &
+
+
+
+
+python client.py (--server=0.0.0.0:8701 --image=image_34.jpg)

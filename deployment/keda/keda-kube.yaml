@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: keda-rabbitmq-secret
+data:
+        #host: YW1xcDovL2FkbWluOmFkbWluQDEwLjQwLjQxLjU3OjU2NzIvZXhhbXBsZQ==
+  host: YW1xcDovL2FkbWluOmFkbWluQDEwLjQwLjQxLjU3OjMwNzA3L2V4YW1wbGU=    
+  #YW1xcDovL2FkbWluOmFkbWluQDEwLjQwLjQxLjU3OjMyNTQ4L2V4YW1wbGU=
+  #YW1xcDovL2FkbWluOmFkbWluQDEwLjQwLjQxLjU3OjU2NzIvdmhvc3QK #base64 encoded value of format amqp://guest:password@localhost:5672/vhost
+---
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: keda-trigger-auth-rabbitmq-conn
+  namespace: default
+spec:
+  secretTargetRef:
+    - parameter: host
+      name: keda-rabbitmq-secret
+      key: host
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: rabbitmq-scaledobjectforsomething
+  namespace: default
+  labels:
+    deploymentName: worker
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: worker
+  minReplicaCount: 0
+  maxReplicaCount: 10
+
+  triggers:
+  - type: rabbitmq
+    metadata:
+      protocol: "amqp"
+      queueName: "something"
+      queueLength: "1"
+    authenticationRef:
+      name: keda-trigger-auth-rabbitmq-conn
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: rabbitmq-scaledobjectforhello
+  namespace: default
+  labels:
+    deploymentName: aap
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: app
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  pollingInterval: 5
+  cooldownPeriod: 30
+
+  triggers:
+  - type: rabbitmq
+    metadata:
+      protocol: "amqp"
+      queueName: "hello"
+      metricName: shiv
+      queueLength: "1"
+    authenticationRef:
+      name: keda-trigger-auth-rabbitmq-conn

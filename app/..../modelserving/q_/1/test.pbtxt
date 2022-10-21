@@ -1,0 +1,58 @@
+item {
+    id: 1
+    display_name: "GIVEWAY"
+}
+
+item {
+    id: 2
+    display_name: "NOENTRY"
+}
+
+item {
+    id: 3
+    display_name: "NOPARK"
+}
+
+item {
+    id: 4
+    display_name: "NOSTOP"
+}
+
+item {
+    id: 5
+    display_name: "PRIOSTREET"
+}
+
+item {
+    id: 6
+    display_name: "SL50"
+}
+
+item {
+    id: 7
+    display_name: "SL60"
+}
+
+item {
+    id: 8
+    display_name: "WBDIAGR"
+}
+
+item {
+    id: 9
+    display_name: "WBROUND"
+}
+
+
+item {
+    id: 10
+    display_name: "ZEBRA"
+}
+
+item {
+    id: 11
+    display_name: "ONEWAYU"
+}
+
+
+
