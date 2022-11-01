@@ -11,6 +11,8 @@ Please create a file *vizsense-setup.sh* ,And provide excution permeation using 
   
 ```bash
 #!/bin/bash
+#vim vizsense-setup.sh
+
 workdir()
 {
 "cd" vizsense
