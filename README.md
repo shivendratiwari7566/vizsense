@@ -5,7 +5,7 @@ Write something about vizsense
 ## Installation
 
 Use the bellow bash scrip to install **VizSense** Tool.
-Please create a file *vizsense-setup.sh* ,And provide excution permeation using bellow command -:  
+Please create a file *vizsense-setup.sh* ,And provide excution permission using bellow command -:  
 *sudo chmod -R +x vizsense-setup.sh*  
  Then run -:  *sh vizsense-setup.sh*
   
