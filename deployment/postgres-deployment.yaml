@@ -35,7 +35,7 @@ spec:
               value: apexroot1
           image: postgres:latest
           name: postgres
-          imagePullPolicy: Never
+          #imagePullPolicy: Never
           ports:
             - containerPort: 5432
           resources: {}
