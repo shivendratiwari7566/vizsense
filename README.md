@@ -22,7 +22,10 @@ kubectl apply -f deployment/keda
 kubectl apply -f deployment/services
 }
 read -p "Please enter the branch name or hit enter to continue with default branch: " branch
+
 read -p "Please provide User Name like shivendratiwari30: " user
+
+
 read -p "Please provide Personal access token like ghp_v3UVMgdVncdRt9GJfghjkfICD778X536XOCC: " tocken
 
 
