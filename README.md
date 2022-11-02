@@ -41,7 +41,7 @@ else
 fi
 
 ```
-Note :- This script will only work if, k8s Cluster is Up and Running,
+Note :- This script will only work, if k8s Cluster is Up and Running,
 So Please make sure having a Healthy k8s cluster
 ## Usage
 
