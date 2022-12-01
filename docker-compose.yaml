@@ -66,13 +66,13 @@ services:
     command: sh -c "python3 Worker/worker.py"
     image: app-image:latest
     hostname: worker
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
 
 
 
