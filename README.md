@@ -12,7 +12,7 @@ Please create a file *vizsense-setup.sh* ,And provide excution permission using 
 ```bash
 #!/bin/bash
 #vim vizsense-setup.sh
-echo "Installing is keda"
+echo "keda is Installing........"
 kubectl apply -f https://github.com/kedacore/keda/releases/download/v2.9.1/keda-2.9.1.yaml
 
 echo "deploying application............."
