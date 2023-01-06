@@ -12,13 +12,17 @@ Please create a file *vizsense-setup.sh* ,And provide excution permission using 
 ```bash
 #!/bin/bash
 #vim vizsense-setup.sh
+echo "Installing is keda"
+kubectl apply -f https://github.com/kedacore/keda/releases/download/v2.9.1/keda-2.9.1.yaml
+
+echo "deploying application............."
 
 workdir()
 {
 "cd" vizsense
 sudo docker-compose build
 kubectl apply -f deployment
-kubectl apply -f deployment/keda
+#kubectl apply -f deployment/keda
 kubectl apply -f deployment/services
 }
 read -p "Please enter the branch name or hit enter to continue with default branch: " branch
